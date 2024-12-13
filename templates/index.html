@@ -1,0 +1,139 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flight Route Optimizer</title>
+    <!-- Link to your custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    
+    <!-- jQuery Library -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    
+    <!-- jQuery UI Library -->
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+    />
+    <script
+      src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"
+      integrity="sha256-9zljDKpE/mQxmaR4V2cGVaQ7arF3CcXxarvgr7Sj8Uc="
+      crossorigin="anonymous"
+    ></script>
+    
+    <!-- Initialize Autocomplete and Toggle Aircraft Selection -->
+    <script>
+      $(document).ready(function () {
+        // Initialize autocomplete for source and destination
+        function setupAutocomplete(selector) {
+          $(selector).autocomplete({
+            source: function (request, response) {
+              $.ajax({
+                url: "{{ url_for('autocomplete') }}",
+                dataType: "json",
+                data: {
+                  q: request.term,
+                },
+                success: function (data) {
+                  response(data);
+                },
+                error: function (xhr, status, error) {
+                  console.error("Autocomplete AJAX error:", error);
+                  response([]);
+                }
+              });
+            },
+            minLength: 2, // Minimum number of characters before autocomplete starts
+            select: function (event, ui) {
+              // Optionally, you can store the selected IATA code in a hidden field
+              // For simplicity, we'll parse it on the server side
+            },
+            open: function () {
+              $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+            },
+            close: function () {
+              $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+            }
+          });
+        }
+
+        // Initialize autocomplete for source and destination
+        setupAutocomplete("#source");
+        setupAutocomplete("#destination");
+
+        // Toggle Aircraft Selection
+        function toggleAircraftSelection() {
+          var selectionMethod = $('input[name="selection_method"]:checked').val();
+          var aircraftSelect = $("#aircraft_select");
+          if (selectionMethod === "select") {
+            aircraftSelect.show();
+          } else {
+            aircraftSelect.hide();
+          }
+        }
+
+        toggleAircraftSelection(); // Initialize on page load
+        $('input[name="selection_method"]').change(toggleAircraftSelection);
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Flight Route Optimizer</h1>
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+      <form method="POST">
+        <label for="source">Source Airport:</label>
+        <input
+          type="text"
+          id="source"
+          name="source"
+          placeholder="Type airport name or IATA code"
+          required
+        />
+
+        <label for="destination">Destination Airport:</label>
+        <input
+          type="text"
+          id="destination"
+          name="destination"
+          placeholder="Type airport name or IATA code"
+          required
+        />
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required />
+
+        <fieldset>
+          <legend>Aircraft Selection Method:</legend>
+          <label>
+            <input type="radio" name="selection_method" value="auto" checked />
+            Choose Automatically
+          </label>
+          <label>
+            <input type="radio" name="selection_method" value="select" />
+            Choose from the List
+          </label>
+        </fieldset>
+
+        <div id="aircraft_select" style="display: none">
+          <label for="aircraft_model">Aircraft Model:</label>
+          <select id="aircraft_model" name="aircraft_model">
+            <option value="">-- Select an Aircraft Model --</option>
+            {% for model in aircraft_models %}
+            <option value="{{ model }}">{{ model }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <button type="submit">Optimize Route</button>
+      </form>
+    </div>
+  </body>
+</html>

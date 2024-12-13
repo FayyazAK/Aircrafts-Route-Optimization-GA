@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Optimized Route</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Optimized Flight Route</h1>
+      <p>{{ route }}</p>
+      <a href="{{ url_for('index') }}">&#8592; Optimize Another Route</a>
+    </div>
+  </body>
+</html>

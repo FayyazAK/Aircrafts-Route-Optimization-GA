@@ -1,0 +1,90 @@
+/* static/styles.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+}
+
+.container {
+  width: 50%;
+  margin: auto;
+  background-color: white;
+  padding: 2em;
+  margin-top: 5em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #555;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="text"] {
+  width: 100%;
+}
+
+fieldset {
+  margin-top: 1em;
+  border: 1px solid #ccc;
+  padding: 1em;
+  border-radius: 4px;
+}
+
+legend {
+  padding: 0 0.5em;
+  font-weight: bold;
+}
+
+button {
+  margin-top: 1.5em;
+  padding: 0.7em;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+/* Optional: Adjust jQuery UI Autocomplete styles */
+.ui-autocomplete {
+  max-height: 200px;
+  overflow-y: auto;
+  /* Prevent horizontal scrollbar */
+  overflow-x: hidden;
+  z-index: 1000; /* Ensure autocomplete dropdown appears above other elements */
+}
+
+* html .ui-autocomplete {
+  height: 200px;
+}
