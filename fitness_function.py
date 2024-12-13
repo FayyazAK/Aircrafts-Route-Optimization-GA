@@ -41,7 +41,7 @@ def calculate_route_cost(route, cost_matrix, distance_matrix, iata_to_index, air
     if len(route) == 3 and distance_matrix[origin_index][destination_index] > aircraft_range:
         print(f"Direct flight between {route[1]} and {route[-1]} not possible because Direct distance = {distance_matrix[origin_index][destination_index]}kms and Aircraft's range = {aircraft_range}kms")
         total_cost = 150000
-        return total_cost
+        return total_cost, route_distance
     for i in range(1, len(route) - 1):
         source = route[i]
         source_latitude = iata_to_lat_long[source]["latitude"]

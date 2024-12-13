@@ -102,6 +102,7 @@ def index():
             total_distance = optimization_result['total_distance']
         except Exception as e:
             error = f"An error occurred during optimization: {str(e)}"
+            print(e)
             return render_template('index.html', error=error, aircraft_models=AIRCRAFT_MODELS, airports=AIRPORTS)
 
         # Format the best route for display (e.g., as a list or a string)
